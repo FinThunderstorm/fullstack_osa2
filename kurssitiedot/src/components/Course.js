@@ -27,14 +27,10 @@ const Content = (props) => {
 }
 
 const Total = (props) => {
-    const reducer = (nyt, lisays) => nyt + lisays
+    //logiikka siis se, että annetaan nytille lähtöarvoksi nolla, johon se aina lisää lisayksen tehtavien määrän. (note to myself tulevaisuuteen)
     const yhteensa = props.parts.reduce((nyt, lisays) => {
-        console.log("nyt",nyt)
-        console.log("lisays",lisays)
-        console.log("nyt ",nyt,"lisays ",lisays.exercises)
         return (nyt + lisays.exercises)
     },0)
-    console.log("yhteensa ",yhteensa)
     return (
         <>
             <p>yhteensä {yhteensa} tehtävää</p>
