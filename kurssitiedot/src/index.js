@@ -28,7 +28,7 @@ const Content = (props) => {
 }
 
 const Total = (props) => {
-    // -- logiikka siis se, että annetaan nytille lähtöarvoksi nolla, johon se aina lisää lisayksen tehtavien määrän. (note to myself tulevaisuuteen)
+    // logiikka siis se, että annetaan nytille lähtöarvoksi nolla, johon se aina lisää lisayksen tehtavien määrän. (note to myself tulevaisuuteen)
     const yhteensa = props.parts.reduce((nyt, lisays) => {
         return (nyt + lisays.exercises)
     },0)
