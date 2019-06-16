@@ -20,17 +20,21 @@ const Content = (props) => {
     return (
         <>
             {props.parts.map(part => {
-                return <Part part={part.name} exercises={part.exercises}/>
+                return <Part key={part.id} part={part.name} exercises={part.exercises}/>
             })}
         </>
     )
 }
 
 const Total = (props) => {
-    let yhteensa = 0
-    props.parts.forEach(part => {
-        yhteensa = yhteensa + part.exercises
-    })
+    const reducer = (nyt, lisays) => nyt + lisays
+    const yhteensa = props.parts.reduce((nyt, lisays) => {
+        console.log("nyt",nyt)
+        console.log("lisays",lisays)
+        console.log("nyt ",nyt,"lisays ",lisays.exercises)
+        return (nyt + lisays.exercises)
+    },0)
+    console.log("yhteensa ",yhteensa)
     return (
         <>
             <p>yhteensä {yhteensa} tehtävää</p>
