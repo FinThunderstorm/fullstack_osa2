@@ -31,6 +31,10 @@ const App = () => {
     }
   }
 
+  const filterPerson = (event) => {
+    event.preventDefault()
+  }
+
   const handlePersonChange = (event) => {
     setNewName(event.target.value)
   }
@@ -40,40 +44,55 @@ const App = () => {
   }
 
   const handleFilterChange = (event) => {
-    event.preventDefault()
     setNewFilter(event.target.value)
   }
-
-
-
-  const rows = () => persons.filter(person => {
-    if(newFilter.length > 0){
-      const nameLowerCase = person.name.toLowerCase()
-      const filter = newFilter.toLowerCase()
-      return nameLowerCase.includes(filter)
-    } else{
-      return true
-    }
-   }).map(person => <div key={person.name}>{person.name} {person.number}</div>)
   
-  const Filter = () => {
+  const Filter = (props) => {
+    return (
+      <form><div>filter shown with <input value={props.filterValue} onChange={props.filterOnChange}/></div></form>
+    )
+  }
 
+  const PersonForm = (props) => {
+    return (
+      <form onSubmit={props.onSubmit}>
+        <div>name: <input value={props.nameValue} onChange={props.nameOnChange}/></div>
+        <div>number: <input value={props.numberValue} onChange={props.numberOnChange}/></div>
+        <div><button type="submit">add</button></div>
+      </form>
+    )
+  }
+
+  const Persons = (props) => {
+    const persons = props.persons
+    
+    return (
+      persons.filter(person => {
+        if(newFilter.length > 0){
+          const nameLowerCase = person.name.toLowerCase()
+          const filter = newFilter.toLowerCase()
+          return nameLowerCase.includes(filter)
+        } else{
+          return true
+        }
+       }).map((person,i) => <Person key={i} name={person.name} number={person.number} />)
+    )
+  }
+
+  const Person = (props) => {
+    return (
+      <div>{props.name} {props.number}</div>
+    )
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <form>
-        <div>filter shown with <input value={newFilter} onChange={handleFilterChange}/></div>
-      </form>
+      <Filter onSubmit={filterPerson} filterValue={newFilter} filterOnChange={handleFilterChange}/>
       <h2>add a new</h2>
-      <form onSubmit={addPerson}>
-        <div>name: <input value={newName} onChange={handlePersonChange}/></div>
-        <div>number: <input value={newNumber} onChange={handleNumberChange}/></div>
-        <div><button type="submit">add</button></div>
-      </form>
+      <PersonForm onSubmit={addPerson} nameValue={newName} nameOnChange={handlePersonChange} numberValue={newNumber} numberOnChange={handleNumberChange}/>
       <h2>Numbers</h2>
-      {rows()}
+      <Persons persons={persons}/>
     </div>
   )
 
