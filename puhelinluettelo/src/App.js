@@ -40,6 +40,7 @@ const App = () => {
   }
 
   const handleFilterChange = (event) => {
+    event.preventDefault()
     setNewFilter(event.target.value)
   }
 
@@ -48,15 +49,16 @@ const App = () => {
   const rows = () => persons.filter(person => {
     if(newFilter.length > 0){
       const nameLowerCase = person.name.toLowerCase()
-      console.log(person.name," ",nameLowerCase)
       const filter = newFilter.toLowerCase()
-      console.log(newFilter," ",filter)
       return nameLowerCase.includes(filter)
     } else{
       return true
     }
    }).map(person => <div key={person.name}>{person.name} {person.number}</div>)
   
+  const Filter = () => {
+
+  }
 
   return (
     <div>
