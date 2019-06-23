@@ -27,13 +27,13 @@ const Persons = (props) => {
       } else{
         return true
       }
-    }).map((person,i) => <Person key={i} name={person.name} number={person.number} />)
+    }).map((person,i) => <Person key={i} name={person.name} number={person.number} id={i} />)
   )
 }
 
 const Person = (props) => {
   return (
-    <div>{props.name} {props.number}</div>
+    <div>{props.name} {props.number}<button id={props.id}>delete</button></div>
   )
 }
 
@@ -47,8 +47,8 @@ const App = () => {
   useEffect(() => {
     personService
       .getAll()
-      .then(response => {
-        setPersons(response.data)
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   },[])
 
@@ -68,8 +68,8 @@ const App = () => {
     } else {
       personService
         .create(personObject)
-        .then(response => {
-          setPersons(persons.concat(response.data))
+        .then(person => {
+          setPersons(persons.concat(person))
           setNewName('')
         setNewNumber('')
         })
