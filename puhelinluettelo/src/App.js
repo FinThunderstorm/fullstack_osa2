@@ -72,10 +72,6 @@ const App = () => {
     }
   }
 
-  const filterPerson = (event) => {
-    event.preventDefault()
-  }
-
   const handlePersonChange = (event) => {
     setNewName(event.target.value)
   }
@@ -85,6 +81,7 @@ const App = () => {
   }
 
   const handleFilterChange = (event) => {
+    event.preventDefault()
     setNewFilter(event.target.value)
   }
   
