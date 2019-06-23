@@ -1,44 +1,14 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
+      "name": "DNA Asiakaspalvelu",
+      "number": "044 144 044",
       "id": 1
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
     },
     {
       "name": "Kansalaisneuvonta",
       "number": "0295 000",
-      "id": 5
-    },
-    {
-      "name": "Numeropalvelu",
-      "number": "118",
-      "id": 6
-    },
-    {
-      "name": "Fonceta",
-      "number": "020202",
-      "id": 7
-    },
-    {
-      "name": "DNA Asiakaspalvelu",
-      "number": "044 144 044",
-      "id": 8
+      "id": 2
     }
   ]
 }
