@@ -24,6 +24,11 @@
       "name": "Kansalaisneuvonta",
       "number": "0295 000",
       "id": 5
+    },
+    {
+      "name": "Numeropalvelu",
+      "number": "118",
+      "id": 6
     }
   ]
 }
