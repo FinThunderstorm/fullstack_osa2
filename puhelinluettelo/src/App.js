@@ -64,15 +64,31 @@ const App = () => {
       return person.name === personObject.name
     })
 
+    console.log(check)
+
     if(check !== undefined){
-      alert(`${personObject.name} is already added to phonebook`)
+      if(window.confirm(`${personObject.name} is already added to phonebook, replace the old number with a new one?`)){
+        
+        personService
+          .update(check.id, personObject)
+          .then(person => {
+            console.log(person)
+            personService
+              .getAll()
+              .then(updatePersons => {
+                setPersons(updatePersons)
+              })
+            setNewName('')
+            setNewNumber('')
+          })
+      }
     } else {
       personService
         .create(personObject)
         .then(person => {
           setPersons(persons.concat(person))
           setNewName('')
-        setNewNumber('')
+          setNewNumber('')
         })
     }
   }
