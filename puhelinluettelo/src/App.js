@@ -8,7 +8,7 @@ const Notification = (props) => {
   }
 
   return (
-    <div className='notification'>
+    <div className={props.style}>
       {props.message}
     </div>
   )
@@ -58,6 +58,7 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
   const [ errorMessage, setErrorMessage ] = useState(null)
+  const [ errorStyle, setErrorStyle ] = useState('')
 
   useEffect(() => {
     personService
@@ -90,14 +91,31 @@ const App = () => {
               .then(updatePersons => {
                 setPersons(updatePersons)
               })
+            setErrorStyle('notification')
             setErrorMessage(
               `Person ${personObject.name} updated`
             )
             setTimeout(() => {
               setErrorMessage(null)
+              setErrorStyle('')
             },5000)
             setNewName('')
             setNewNumber('')
+          })
+          .catch(error => {
+            personService
+              .getAll()
+              .then(updatePersons => {
+                setPersons(updatePersons)
+              })
+            setErrorStyle('error')
+            setErrorMessage(
+              `Information of ${personObject.name} has already been removed from server`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+              setErrorStyle('')
+            },5000)
           })
       }
     } else {
@@ -107,12 +125,14 @@ const App = () => {
           setPersons(persons.concat(person))
           setNewName('')
           setNewNumber('')
-            setErrorMessage(
-              `Person ${personObject.name} added to phonebook`
-            )
-            setTimeout(() => {
-              setErrorMessage(null)
-            },5000)
+          setErrorStyle('notification')
+          setErrorMessage(
+            `Person ${personObject.name} added to phonebook`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+            setErrorStyle('')
+          },5000)
         })
     }
   }
@@ -128,11 +148,28 @@ const App = () => {
           .then(updatePersons => {
             setPersons(updatePersons)
           })
+        setErrorStyle('notification')
         setErrorMessage(
           `Person ${name} removed from phonebook`
         )
         setTimeout(() => {
           setErrorMessage(null)
+          setErrorStyle('')
+        },5000)
+      })
+      .catch(error => {
+        personService
+          .getAll()
+          .then(updatePersons => {
+            setPersons(updatePersons)
+          })
+        setErrorStyle('error')
+        setErrorMessage(
+          `Information of ${name} has already been removed from server`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+          setErrorStyle('')
         },5000)
       })
     }
@@ -155,7 +192,7 @@ const App = () => {
   return (
     <div> 
       <h2>Phonebook</h2>
-      <Notification message={errorMessage} />
+      <Notification style={errorStyle} message={errorMessage} />
       <Filter filterValue={newFilter} filterOnChange={handleFilterChange}/>
       <h2>add a new</h2>
       <PersonForm onSubmit={addPerson} nameValue={newName} nameOnChange={handlePersonChange} numberValue={newNumber} numberOnChange={handleNumberChange}/>
