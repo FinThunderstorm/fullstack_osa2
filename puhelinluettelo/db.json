@@ -9,6 +9,21 @@
       "name": "DNA Asiakaspalvelu",
       "number": "044 144 044",
       "id": 3
+    },
+    {
+      "name": "Seppo Taalasmaa",
+      "number": "040 4040 404",
+      "id": 4
+    },
+    {
+      "name": "Seppo",
+      "number": "010 1010 101",
+      "id": 5
+    },
+    {
+      "name": "Teppo",
+      "number": "030 3030 303",
+      "id": 6
     }
   ]
 }

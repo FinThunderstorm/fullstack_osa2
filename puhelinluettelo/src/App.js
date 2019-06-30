@@ -1,5 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import personService from './services/persons'
+import './App.css'
+
+const Notification = (props) => {
+  if(props.message === null) {
+    return null
+  }
+
+  return (
+    <div className='notification'>
+      {props.message}
+    </div>
+  )
+}
 
 const Filter = (props) => {
   return (
@@ -44,6 +57,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
+  const [ errorMessage, setErrorMessage ] = useState(null)
 
   useEffect(() => {
     personService
@@ -64,8 +78,6 @@ const App = () => {
       return person.name === personObject.name
     })
 
-    console.log(check)
-
     if(check !== undefined){
       if(window.confirm(`${personObject.name} is already added to phonebook, replace the old number with a new one?`)){
         
@@ -78,6 +90,12 @@ const App = () => {
               .then(updatePersons => {
                 setPersons(updatePersons)
               })
+            setErrorMessage(
+              `Person ${personObject.name} updated`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            },5000)
             setNewName('')
             setNewNumber('')
           })
@@ -89,6 +107,12 @@ const App = () => {
           setPersons(persons.concat(person))
           setNewName('')
           setNewNumber('')
+            setErrorMessage(
+              `Person ${personObject.name} added to phonebook`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            },5000)
         })
     }
   }
@@ -104,6 +128,12 @@ const App = () => {
           .then(updatePersons => {
             setPersons(updatePersons)
           })
+        setErrorMessage(
+          `Person ${name} removed from phonebook`
+        )
+        setTimeout(() => {
+          setErrorMessage(null)
+        },5000)
       })
     }
     
@@ -122,18 +152,10 @@ const App = () => {
     setNewFilter(event.target.value)
   }
   
-  
-
-  
-
-  
-  
-
-  
-
   return (
     <div> 
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} />
       <Filter filterValue={newFilter} filterOnChange={handleFilterChange}/>
       <h2>add a new</h2>
       <PersonForm onSubmit={addPerson} nameValue={newName} nameOnChange={handlePersonChange} numberValue={newNumber} numberOnChange={handleNumberChange}/>
