@@ -20,14 +20,6 @@ const Countries = (props) => {
     }
   })
   
-  
-  
-
-  const handleShow = (event) => {
-    event.preventDefault()
-    
-
-  }
   console.log("countries props",props)
 
   if(filteredCountries.length>10){
@@ -36,11 +28,11 @@ const Countries = (props) => {
     )
   } else if(filteredCountries.length === 1){
     return (
-      filteredCountries.map((country,i) => <Country key={i} country={country} mode={"fact"} onClick={handleShow}/>)
+      filteredCountries.map((country,i) => <Country key={i} country={country} mode={"fact"} nayta={'yksi'}/>)
     )
   } else{
     return (
-      filteredCountries.map((country,i) => <Country key={i} country={country} mode={"list"} onClick={handleShow} />)
+      filteredCountries.map((country,i) => <Country key={i} country={country} mode={"list"} nayta={'monta'} />)
     )
   }
 
@@ -48,19 +40,52 @@ const Countries = (props) => {
 }
 
 const Country = (props) => {
-  
+  const placeholderWeather = {
+    current: {
+      temperature: '',
+      weather_icons: {
+        0: ''
+      },
+      wind_speed: '',
+      wind_dir: ''
+    }
+  }
+  const [ weather, setWeather ] = useState(placeholderWeather)
   useEffect(() => {
+    const params = {
+      access_key: '19b5ea141a9dc1f924a4f886e1a1b333',
+      query: props.country.capital
+    }
     axios
-      .get('https://api.apixu.com/v1/current.json?key=5cdfeca6bf4f43bc969111500192306&q='+props.country.capital)
+      .get('http://api.weatherstack.com/current', { params })
       .then(response => {
+        console.log(response.data)
         setWeather(response.data)
       })
-  },[])
+  }, [])
+
+  
+
+  const [ visible, setVisble ] = useState(false)
+  
+  const hideWhenVisible = { display: visible ? 'none' : '' }
+  const showWhenVisible = { display: visible ? '' : 'none' }
+
+  const toggleVisibility = () => {
+    setVisble(!visible)
+  }
+
+  /*useEffect(() => {
+    if(props.nayta === 'monta'){
+      setVisble(!visible)
+    }
+  },[])*/
+  
 
   console.log("country props",props)
   if(props.mode === "fact"){
     return (
-      <div>
+      <div style={showWhenVisible}>
         <h1>{props.country.name}</h1>
         <div>capital {props.country.capital}</div>
         <div>population {props.country.population}</div>
@@ -69,11 +94,31 @@ const Country = (props) => {
           {props.country.languages.map((language,i) => <li key={i}>{language.name}</li>)}
         </ul>
         <img src={props.country.flag} width="30%" alt=""/>
+        <h1>Weather in {props.country.capital}</h1>
+        <div><b>temperature: {weather.current.temperature} Celsius</b></div>
+        <img src={weather.current.weather_icons[0]} width='30%' alt="" />
+        <div><b>wind: {weather.current.wind_speed} kph direction {weather.current.wind_dir}</b></div>
       </div>
     )
   } else if(props.mode === "list"){
     return (
-      <div>{props.country.name}<button id={props.country.name} onClick={props.onClick}>show</button></div>
+      <div>
+        <div style={hideWhenVisible}>{props.country.name}<button id={props.country.name} onClick={toggleVisibility}>show</button></div>
+        <div style={showWhenVisible}>
+          <h1>{props.country.name}</h1>
+          <div>capital {props.country.capital}</div>
+          <div>population {props.country.population}</div>
+          <h2>languages</h2>
+          <ul>
+            {props.country.languages.map((language,i) => <li key={i}>{language.name}</li>)}
+          </ul>
+          <img src={props.country.flag} width="30%" alt=""/>
+          <h1>Weather in {props.country.capital}</h1>
+          <div><b>temperature: {weather.current.temperature} Celsius</b></div>
+          <img src={weather.current.weather_icons[0]} width='30%' alt="" />
+          <div><b>wind: {weather.current.wind_speed} kph direction {weather.current.wind_dir}</b></div>
+        </div>
+      </div>
     )
   }
   
